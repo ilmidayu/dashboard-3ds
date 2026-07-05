@@ -119,11 +119,24 @@ if menu == "📊 Ringkasan Utama":
     st.title("📊 Ringkasan Utama")
     
     with st.container(border=True):
-        col1, col2, col3, col4 = st.columns(4)
+        # Kita ubah menjadi 5 kolom agar muat untuk metrik baru
+        col1, col2, col3, col4, col5 = st.columns(5)
+        
+        # 1. Total Pelanggan (186 PT/CV Unik)
         col1.metric("Total Pelanggan", f"{len(df)} PT/CV")
-        col2.metric("Total Pendapatan", f"Rp {df['Monetary'].sum()/1e6:.1f} Juta")
-        col3.metric("Rata-rata Transaksi", f"{df['Frequency'].mean():.1f} Kali")
-        col4.metric("Rata-rata Kepuasan", f"{df['SKP'].mean():.2f} / 5.0")
+        
+        # 2. Total Transaksi (Jumlahan dari kolom Frequency, pasti 407!)
+        total_transaksi = int(df['Frequency'].sum())
+        col2.metric("Total Transaksi", f"{total_transaksi} Kali")
+        
+        # 3. Total Pendapatan (Sudah aman di kisaran 11,5 Miliar)
+        col3.metric("Total Pendapatan", f"Rp {df['Monetary'].sum()/1e6:.1f} Juta")
+        
+        # 4. Rata-rata Transaksi per Pelanggan
+        col4.metric("Rata-rata Transaksi", f"{df['Frequency'].mean():.1f} Kali")
+        
+        # 5. Rata-rata Kepuasan (SKP)
+        col5.metric("Rata-rata Kepuasan", f"{df['SKP'].mean():.2f} / 5.0")
 
     # BARIS 1: Tabel Memanjang Full Width
     with st.container(border=True):
